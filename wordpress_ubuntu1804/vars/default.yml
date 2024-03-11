@@ -1,0 +1,11 @@
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+
+mysql_password: "M33tQu0t@"
+mysql_user: 'root'
+mysql_host: '192.168.1.13'
+mysql_db: 'wordpress2'
+app_user: "root"
+http_host: "lethal.corp"
+http_conf: "lethal.corp.conf"
+http_port: "80"
+disable_default: true

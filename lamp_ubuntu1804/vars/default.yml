@@ -1,0 +1,6 @@
+mysql_root_password: "M33tQu0t@"
+app_user: "root"
+http_host: "lethal.corp"
+http_conf: "lethal.corp.conf"
+http_port: "80"
+disable_default: true

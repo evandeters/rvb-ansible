@@ -1,0 +1,19 @@
+- name: Replace IPs on Jester
+  hosts: jester
+  tasks:
+    - name: Replace IP in statusWS.js
+      win_shell: |
+        (Get-Content C:\gumper\assets\js\statusWS.js).Replace('172.16.50','{{ ansible_host }}'.split('.')[0..2] -join '.') | Set-Content C:\gumper\assets\js\statusWS.js -Encoding UTF8
+      args:
+        executable: powershell.exe
+  any_errors_fatal: true
+
+- name: Remove Authorized Keys File
+  hosts: jester
+  gather_facts: no
+  tasks:
+    - name: Remove administrators_authorized_keys
+      win_shell: |
+        rm C:\ProgramData\ssh\administrators_authorized_keys
+      args:
+        executable: powershell.exe

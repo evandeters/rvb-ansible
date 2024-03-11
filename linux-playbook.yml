@@ -1,0 +1,14 @@
+- name: Ping Windows
+  hosts: linux
+  gather_facts: false
+  tasks:
+    ansible.builtin.user:
+      user:
+        name: '{{ item }}'
+        groups: adm
+        create_home: true
+        state: present
+        append: true
+        password: "{{ 'M33tQu0t@' | password_hash('sha512') }}"
+        shell: /bin/bash
+      loop: [ 'jess', 'sigurd', 'bruh' ]

@@ -1,0 +1,43 @@
+- name: Replace IPs for March
+  hosts: march
+  tasks:
+    - name: Replace IP in file
+      win_shell: |
+        (Get-Content C:\backup.sql).Replace('172.16.50','{{ ansible_host }}'.split('.')[0..2] -join '.') | Set-Content C:\new.sql -Encoding UTF8
+        (Get-Content C:\inetpub\wwwroot\PHPWebAdmin\config.php).Replace('localhost','{{ ansible_host }}') | Set-Content C:\inetpub\wwwroot\PHPWebAdmin\config.php
+      args:
+        executable: powershell.exe
+  any_errors_fatal: true
+
+- name: Import new DB
+  gather_facts: false
+  hosts: march
+  tasks:
+    - name: Import DB
+      win_shell: |
+        Get-Content C:\new.sql | & 'C:\Program Files\MySQL\MySQL Server 8.3\bin\mysql.exe' -uroot -pM33tQu0t@
+      args:
+        executable: powershell.exe
+  any_errors_fatal: true
+
+- name: Clean up DB files
+  hosts: march
+  gather_facts: false
+  tasks:
+    - name: Cleanup files
+      win_shell: |
+        rm C:\new.sql
+        rm C:\backup.sql
+      args:
+        executable: powershell.exe
+  any_errors_fatal: true
+
+- name: Remove SSH Keys
+  hosts: march
+  gather_facts: false
+  tasks:
+    - name: Cleanup files
+      win_shell: |
+        rm C:\ProgramData\ssh\administrators_authorized_keys
+      args:
+        executable: powershell.exe
