@@ -1,0 +1,24 @@
+- name: Clone a VM from Template
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars/default.yaml
+  tasks:
+    - name: Clone from Template
+      vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        folder: "{{ folder }}"
+        datastore: "{{ datastore }}"
+        datacenter: "{{ datacenter }}"
+        name: "{{ clone_name }}"
+        template: "{{ template }}"
+        state: poweredon
+        cluster: "{{ cluster }}"
+        resource_pool: "{{ resource_pool }}"
+        networks:
+          - name: "{{ network }}"
+        wait_for_ip_address: yes
+      delegate_to: localhost
